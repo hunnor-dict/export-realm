@@ -1,0 +1,15 @@
+{
+	"name": "hunnor-realm",
+	"version": "1.0.0",
+	"description": "Create a Realm database from the HunNor XML export",
+	"license": "GPL-3.0-or-later",
+	"repository": "github:hunnor-dict/export-realm",
+	"main": "main.js",
+	"bin": {
+		"hunnor-realm": "./main.js"
+	},
+	"dependencies": {
+		"realm": "^6.0.4",
+		"yargs": "^15.4.1"
+	}
+}
