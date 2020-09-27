@@ -9,7 +9,7 @@
 		"hunnor-realm": "./main.js"
 	},
 	"dependencies": {
-		"realm": "^6.0.5",
+		"realm": "^6.1.2",
 		"yargs": "^15.4.1"
 	}
 }
