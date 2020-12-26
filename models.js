@@ -1,7 +1,10 @@
 exports.WordSchema = {
 	name: "Word",
 	properties: {
-		value: "string",
+		value: {
+			type: "string",
+			indexed: true
+		},
 		inflected: "int"
 	}
 };
