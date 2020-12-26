@@ -22,33 +22,32 @@ const options = yargs
 		}).argv;
 
 function loadFile(realm, file, lang) {
-	fs.readFile(file, {"encoding": "UTF-8"}, function(err, data) {
-		let entries = JSON.parse(data);
-		entries.forEach(entry => {
-			roots = [];
-			entry.roots.forEach(root => {
+	const data = fs.readFileSync(file, {encoding: "UTF-8"});
+	let entries = JSON.parse(data);
+	entries.forEach(entry => {
+		roots = [];
+		entry.roots.forEach(root => {
+			var word = {}
+			word.value = root
+			word.inflected = 0
+			roots.push(word)
+		});
+		inflections = [];
+		if (entry.inflections) {
+			entry.inflections.forEach(inflection => {
 				var word = {}
-				word.value = root
-				word.inflected = 0
-				roots.push(word)
+				word.value = inflection
+				word.inflected = 1
+				inflections.push(word)
 			});
-			inflections = [];
-			if (entry.inflections) {
-				entry.inflections.forEach(inflection => {
-					var word = {}
-					word.value = inflection
-					word.inflected = 1
-					inflections.push(word)
-				});
-			}
-			realm.write(() => {
-				realm.create('Entry', {
-					lang: lang,
-					id: entry.id,
-					content: entry.content,
-					roots: roots,
-					inflections: inflections
-				});
+		}
+		realm.write(() => {
+			realm.create('Entry', {
+				lang: lang,
+				id: entry.id,
+				content: entry.content,
+				roots: roots,
+				inflections: inflections
 			});
 		});
 	});
@@ -57,4 +56,5 @@ function loadFile(realm, file, lang) {
 realm.open({schema: [models.EntrySchema, models.WordSchema], path: options.realm}).then(database => {
 	loadFile(database, options.hu, "hu");
 	loadFile(database, options.nb, "nb");
+	database.close();
 });
