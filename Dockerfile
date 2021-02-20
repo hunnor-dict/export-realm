@@ -1,4 +1,4 @@
-FROM node:12
+FROM node:14
 COPY . /opt/export-realm
 WORKDIR /opt/export-realm
 RUN npm install
